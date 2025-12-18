@@ -236,6 +236,26 @@ li {
     padding-right: 5px;
 }
 
+.custom-checkbox {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+}
+
+.custom-checkbox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-checkbox::-webkit-scrollbar-thumb {
+    background: #000000;
+    border-radius: 10px;
+}
+
+.custom-checkbox::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }
