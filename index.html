@@ -11,14 +11,22 @@
 </head>
 
 <body>
-    <nav class="cabecalho">
-        <h1 class="text-center fw-900">Lista de compras</h1>
+    <nav class="cabecalho-monocromatico d-flex align-items-center px-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="logo-wrapper">
+                <i class="bi bi-bag-check-fill"></i>
+            </div>
+            <div class="brand-text">
+                <h1 class="m-0 fw-bold">Lista de compras</h1>
+                <div class="linha-decorativa"></div>
+            </div>
+        </div>
     </nav>
 
     <main>
 
         <div class="p-5">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills flex-nowrap overflow-x-auto pb-2" style="white-space: nowrap;">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="pill" href="#home">Menu</a>
                 </li>
@@ -34,6 +42,7 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
+
                 <div class="tab-pane container active" id="home">
                     <div class="p-4 p-md-5 text-center welcome-section">
                         <h2 class="display-5 fw-bold mb-3 animar-entrada">👋 Bem-vindo ao seu Assistente!</h2>
@@ -49,8 +58,7 @@
                                             <i class="bi bi-box-fill fs-1"></i>
                                         </div>
                                         <h4 class="fw-bold">Escolher Produtos</h4>
-                                        <p class="text-muted">Navegue pelo catálogo completo e monte sua lista com um
-                                            clique.</p>
+                                        <p class="text-muted">Navegue pelo catálogo completo e monte sua lista.</p>
                                         <span class="btn btn-outline-warning rounded-pill mt-2">Começar agora</span>
                                     </div>
                                 </div>
@@ -64,9 +72,26 @@
                                             <i class="bi bi-cart-check-fill fs-1"></i>
                                         </div>
                                         <h4 class="fw-bold">Minha Lista</h4>
-                                        <p class="text-muted">Revise seus itens, altere quantidades e exporte para PDF
-                                            ou WhatsApp.</p>
+                                        <p class="text-muted">Revise seus itens e exporte para PDF ou WhatsApp.</p>
                                         <span class="btn btn-outline-warning rounded-pill mt-2">Ver minha lista</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center mt-5 animar-entrada-atraso">
+                            <div class="col-md-10">
+                                <div class="card card-personalizado border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <h5 class="fw-bold"><i class="bi bi-geo-alt-fill"></i> Onde comprar?</h5>
+                                        <p class="small text-muted">Encontre supermercados próximos à sua localização
+                                            atual.</p>
+                                        <button class="btn btn-dark rounded-pill"
+                                            onclick="buscarSupermercadosProximos()">
+                                            <i class="bi bi-search"></i> Buscar lojas próximas
+                                        </button>
+                                        <div id="lista-mercados" class="mt-3 list-group list-group-flush text-start">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -74,14 +99,15 @@
                     </div>
                 </div>
                 <div class="tab-pane container fade" id="menu1">
-                    <div class="row g-0">
+                    <div class="row gx-4">
                         <!-- secao itens pendentes -->
-                        <div class="itens-pendentes-coluna col-6 m-1">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-900">Itens Pendentes</h5>
-                                <div class="botoes-acao">
-                                    <button class="btn-acao bg-danger" onclick="limparTodaALista()"
-                                        title="Limpar Lista Completa">
+                        <div class="itens-pendentes-coluna col-12 col-md-6 m-1 item-card">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+                                <h5 class="fw-900 m-0">Itens Pendentes</h5>
+
+                                <div class="botoes-acao d-flex gap-1">
+                                    <button class="btn-acao" onclick="limparTodaALista()" title="Limpar Lista Completa">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                     <button class="btn-acao" type="button" title="Compartilhar Lista"
@@ -94,15 +120,15 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- caixa dos itens -->
-                            <div class="custom-checkbox">
-                                <ul id="ul-pendentes">
+
+                            <div class="custom-checkbox w-100">
+                                <ul id="ul-pendentes" class="list-unstyled">
                                 </ul>
                             </div>
                         </div>
 
                         <!-- secao itens comprados -->
-                        <div class="itens-comprados-coluna col-6 m-1">
+                        <div class="itens-comprados-coluna col-12 col-md-6 m-1 item-card">
                             <h5 class="fw-900 mb-3">Itens Comprados</h5>
                             <ul class="ul-comprados"></ul>
                         </div>
@@ -110,12 +136,12 @@
                 </div>
                 <div class="tab-pane container fade" id="menu2">
                     <div class="row gx-4">
-                        <div class="itens-pendentes-coluna col-6 m-1">
+                        <div class="itens-pendentes-coluna col-12 col-md-6 m-1 item-card">
                             <h5 class="fw-900 mb-3">Categorias</h5>
                             <div id="categorias-container" class="list-group"></div>
                         </div>
 
-                        <div class="itens-comprados-coluna col-6 m-1">
+                        <div class="itens-comprados-coluna col-12 col-md-6 m-1 item-card">
                             <div class="d-flex justify-content-between">
                                 <h5 class="fw-900 mb-3">Itens</h5>
                             </div>
@@ -146,9 +172,9 @@
                                             </select>
                                         </div>
                                         <div class="col-md-3">
-                                            <button class="btn btn-warning w-100 fw-bold"
+                                            <button class="btn btn-warning w-100 fw-bold text-light"
                                                 onclick="criarItemPersonalizado()">
-                                                <i class="bi bi-plus-circle"></i> Adicionar à Lista
+                                                <i class="bi bi-plus-circle text-light"></i> Adicionar à Lista
                                             </button>
                                         </div>
                                     </div>
@@ -160,9 +186,14 @@
 
     </main>
 
-    <footer class="fixed-bottom text-center p-2">
-        <h4>&copy; All rights reserved </h4>
-        <h6 class="fw-900">Developed by: <i class="bi bi-github"></i> MG and <i class="bi bi-github"></i> GG </h6>
+    <footer class="fixed-bottom text-center p-3 footer-monocromatico">
+        <p class="m-0">© All rights reserved</p>
+        <small class="fw-bold">
+            Developed by: <span class="text-amarelo"><a href="https://github.com/maria0x1" target="_blank"><i
+                        class="bi bi-github"></i>
+                    MG</a></span> & <span class="text-amarelo"><a href="https://github.com/g3iz3r" target="_blank"><i
+                        class="bi bi-github"></i> GG</a></span>
+        </small>
     </footer>
 
 </body>

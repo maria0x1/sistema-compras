@@ -92,6 +92,68 @@ if (searchBtn && searchForm) {
     });
 }
 
+function buscarSupermercadosProximos() {
+    const container = document.getElementById('lista-mercados');
+    container.innerHTML = `
+        <div class="text-center p-3">
+            <div class="spinner-border text-warning" role="status"></div>
+            <p class="mt-2">Acessando GPS e buscando lojas...</p>
+        </div>`;
+
+    if (!navigator.geolocation) {
+        alert("Seu navegador não suporta geolocalização.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const query = `[out:json];node["shop"="supermarket"](around:3000,${lat},${lon});out;`;
+        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.elements.length === 0) {
+                container.innerHTML = `
+                    <div class="alert alert-light text-center">
+                        <i class="bi bi-geo"></i> Nenhum mercado encontrado neste raio.
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = data.elements.slice(0, 5).map(loja => {
+                const nomeLoja = loja.tags.name || "Supermercado sem nome";
+                const urlMaps = `https://www.google.com/maps/dir/?api=1&destination=${loja.lat},${loja.lon}`;
+
+                return `
+                    <a href="${urlMaps}" target="_blank" class="list-group-item list-group-item-action border-0 mb-2 shadow-sm rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong class="d-block"><i class="bi bi-shop text-warning"></i> ${nomeLoja}</strong>
+                                <small class="text-muted">Clique para iniciar rota</small>
+                            </div>
+                            <span class="badge bg-warning text-dark rounded-pill">
+                                <i class="bi bi-signpost-2"></i> Ir
+                            </span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+            tocarSomSucesso();
+
+        } catch (error) {
+            container.innerHTML = "<p class='text-danger'>Erro ao conectar com o serviço de mapas.</p>";
+        }
+    }, (error) => {
+        let mensagem = "Erro ao obter localização.";
+        if (error.code === 1) mensagem = "Por favor, autorize o acesso à localização no navegador.";
+        container.innerHTML = `<p class='text-danger small'>${mensagem}</p>`;
+    });
+}
 
 function renderizarCategorias() {
     let htmlCategorias = '';
@@ -166,9 +228,9 @@ function tocarSomSucesso() {
     const oscillator = context.createOscillator();
     const gain = context.createGain();
 
-    oscillator.type = 'sine'; // Som suave
-    oscillator.frequency.setValueAtTime(523.25, context.currentTime); // Nota Dó (C5)
-    oscillator.frequency.exponentialRampToValueAtTime(880, context.currentTime + 0.1); // Sobe para Lá (A5)
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(523.25, context.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(880, context.currentTime + 0.1);
 
     gain.gain.setValueAtTime(0.1, context.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
@@ -397,7 +459,7 @@ function gerarPDF() {
         yBus += 10;
     } else {
         pendentes.forEach(item => {
-            doc.text(`() ${item.nome} (Qtd: ${item.quantidade}) - Categoria: ${item.categoria}`, 15, yBus);
+            doc.text(`( ) ${item.nome} (Quantidade: ${item.quantidade}) - Categoria: ${item.categoria}`, 15, yBus);
             yBus += 8;
 
             if (yBus > 280) { doc.addPage(); yBus = 20; }

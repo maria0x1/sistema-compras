@@ -10,14 +10,51 @@
     --cor-fundo-secao: #ffffff;
     --cor-borda-item-comprado: #ddd;
     --cor-texto-comprado: #888;
+    --amarelo-principal: #ffc107;
+    --amarelo-brilhante: #ffdb4d;
+    --amarelo-escuro: #cc9a06;
+    --branco-puro: #ffffff;
+    --fundo-dark: #1a1a1a;
 }
 
-.cabecalho {
-    background-color: var(--cor-rodape) !important;
-    padding: 15px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: white;
-    border-bottom: 3px solid #d1a00a;
+.cabecalho-monocromatico {
+    height: 75px;
+    background-color: var(--cor-rodape);
+    border-bottom: 3px solid var(--amarelo-escuro);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-wrapper {
+    font-size: 1.8rem;
+    color: var(--branco-puro);
+    filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.4));
+    transition: all 0.3s ease;
+}
+
+.brand-text h1 {
+    font-size: 1.6rem;
+    color: var(--branco-puro);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.linha-decorativa {
+    height: 2px;
+    width: 40px;
+    background-color: var(--branco-puro);
+    margin-top: -2px;
+    transition: width 0.4s ease;
+}
+
+.cabecalho-monocromatico:hover .linha-decorativa {
+    width: 100%;
+}
+
+.cabecalho-monocromatico:hover .logo-wrapper {
+    color: var(--branco-puro);
+    transform: scale(1.1);
 }
 
 .fw-900 {
